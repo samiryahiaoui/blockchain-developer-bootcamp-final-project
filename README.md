@@ -47,9 +47,9 @@ In all cases, a full syndication system will require also setting a documentatio
 3) Upgradibility: The contract can be taken out of service by the owner through a short-circuit mechanism.
 
 # Dependencies and instructions:
-npm install @openzeppelin/Contracts
-truffle test
-PORT: 8545
+1) npm install @openzeppelin/Contracts
+2) truffle test
+3) PORT: 8545
 
 # Front end location:
 https://samiryahiaoui.github.io/BC_FrontEnd/
