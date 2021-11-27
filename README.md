@@ -50,6 +50,9 @@ In all cases, a full syndication system will require also setting a documentatio
 1) npm install @openzeppelin/Contracts
 2) truffle test
 3) PORT: 8545
+4) Create a .env file in the root directory with the following content:
+  - INFURA_API_KEY= Your Infura API Key without quotes
+  - MNEMONIC= 'quoted string that contain your mnemonics'
 
 # Front end location:
 https://samiryahiaoui.github.io/BC_FrontEnd/
