@@ -36,10 +36,10 @@ The project can be extended in one of two directions:
 In all cases, a full syndication system will require also setting a documentation exchange workflow (maybe through IPFS) as this is a manual process in the centralized finance systems and takes tedious and very inefficient work that takes many weeks to close a loan.
 
 # Directory structure
-contracts folder: This is where the contract syndication.sol is located
-migration folder: Where the migration files are located
-test folder     : Contains the unit test for the contract
-build folder    : Contains json files for the build.
+1) contracts folder: This is where the contract syndication.sol is located
+2) migration folder: Where the migration files are located
+3) test folder     : Contains the unit test for the contract
+4) build folder    : Contains json files for the build.
 
 # Design pattern decisions
 1) Inheritance from the Openzeppelin Ownable contract
@@ -49,6 +49,7 @@ build folder    : Contains json files for the build.
 # Dependencies and instructions:
 npm install @openzeppelin/Contracts
 truffle test
+PORT: 8545
 
 # Front end location:
 https://samiryahiaoui.github.io/BC_FrontEnd/
