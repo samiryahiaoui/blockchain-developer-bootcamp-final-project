@@ -2,21 +2,21 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
+
 /**
  * @title SyndicatedLoan
- * @dev Request a loan for a given ETH amount and allow a syndicate of borrowers to bid on the loan
+ * @author Samir Yahiaoui
+ * @dev Request a loan for a given amount and allow a syndicate of borrowers to bid on the loan
+ * The process implemented in this contract is a simulation only and no funds transfer occur
+ * A potential borrower enters a loan request and various lenders subscribe to the loan committing 
+ * slices of the loans at an interest rate that corresponds to their perception of the risk
  */
-contract Syndication {
+contract Syndication is Ownable{
 
-    // owner doesn't need to change ever after constructor is called
-    address private owner; 
-    // flag to retire contract. Can only be reset by an internal function call from the contract owner.
-    bool internal contractRetired;  
-    // keeps count of the number of loans in any state
-    uint public loanCount;
-    // loan state during the lifetime of the loan
-    enum loanState {initiated, subscribed, fulfilled, closed} loanState state;
+    // address private owner; // This is an alternative to implementing the Ownable pattern
 
+    // struct that implements a loan request attributes
     struct Loan{
         uint loanID;
         string borrower;
@@ -24,22 +24,36 @@ contract Syndication {
         uint committedTotal;
         loanState state;
     }
+
+    // struct that implements a lending bid attributes
     struct Bid{
         uint bidAmount;
         uint yieldAsked;
         string bidder;
     }
+
+    // flag to retire contract. Can only be reset by an internal function call from the contract owner.
+    bool internal contractRetired;  
+
+    // keeps count of the number of loans in any state
+    uint public loanCount;
+
+    // loan state during the lifetime of the loan
+    enum loanState {initiated, subscribed, fulfilled, closed} loanState state;
+
     // borrowers list. Borrowers can register only through function registerBorrower
     mapping(address => string)  borrowers;
+
     // lender list. Lenders can register as a lender only through function registerLender
     mapping(address => string)  lenders;
+
     // List of loans available. Must be public so that borrowers and lenders and others (for instance an auditor) can inspect the list
     mapping(uint => Loan) public loans;
+
     // For each loan, the list of bids from lenders is available so that the borrower can pick the best combination of bidders
     mapping(uint => Bid[]) public bids;
     
     constructor(){
-        owner = msg.sender;
         loanCount = 0;
         contractRetired = false;
     }
@@ -85,11 +99,10 @@ contract Syndication {
     }
 
     /**
-     * @dev set flag to retire the contract
+     * @dev set flag that allows the owner to retire the contract
      * @param _address address that must be that of the contract owner
      */
-    function retire(address _address) public {
-        require(_address == owner);
+    function retire(address _address) public onlyOwner{
         // TODO in the finalized version of the contract, return all amounts sent by lenders before retiring the contract.
         contractRetired = true;
     }
@@ -98,7 +111,7 @@ contract Syndication {
      * @dev register borrower
      * @param _lein Legal Entity Identifier of borrower or borrower's name
      */
-    function registerBorrower(string memory _lein) public contractNotRetired() nameNotEmpty(_lein) isRegisteredAsBorrower() returns(string memory) {
+    function registerBorrower(string memory _lein) public contractNotRetired() nameNotEmpty(_lein)  returns(string memory) {
         borrowers[msg.sender] = _lein;
         emit LogBorrowerRegistered(msg.sender);
         return(borrowers[msg.sender]);
@@ -108,7 +121,7 @@ contract Syndication {
      * @dev register lender
      * @param _lein Legal Entity Identifier of lender or lender's name
      */
-    function registerLender(string memory _lein) public contractNotRetired() nameNotEmpty(_lein) isRegisteredAsLender() returns(string memory){
+    function registerLender(string memory _lein) public contractNotRetired() nameNotEmpty(_lein)  returns(string memory){
         lenders[msg.sender] = _lein;
         emit LogLenderRegistered(msg.sender);
         return(lenders[msg.sender]);
@@ -118,7 +131,7 @@ contract Syndication {
      * @dev borrower request a loan (amount required to be positive)
      * @param _amount loan amount
      */
-     function requestLoan(uint _amount) public contractNotRetired(){
+     function requestLoan(uint _amount) public contractNotRetired() isRegisteredAsBorrower() {
         address sender = msg.sender;
         require(getLength(borrowers[sender])> 0);
         loans[loanCount] = Loan(loanCount, borrowers[sender], _amount, 0, loanState.initiated);
@@ -143,7 +156,7 @@ contract Syndication {
       * @param _loanAmount is the amount the lender is willing to lend. This is required to be positive.
       * @param _rate is the rate at which the lender is willing to lend
       */
-      function makeBid(uint _loanID, uint _loanAmount, uint _rate) public contractNotRetired(){
+      function makeBid(uint _loanID, uint _loanAmount, uint _rate) public contractNotRetired() isRegisteredAsLender(){
           require(getLength(lenders[msg.sender]) > 0);  // lender must first register themself
           require(_loanAmount > 0); // lender can make only positive bids
           require(loans[_loanID].loanAmount > 0); // lender can only bid for existing loans
