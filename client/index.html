@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Syndication</title>
+    
+</head>
+<body>
+    <p>
+        <h3> Metamask Detection</h3>
+        <div id="mm-detected"> </div>
+        <button id='mm-connect'> Connect to metamask</button>
+        <div id="mm-current-account"></div>
+    </p>
+
+    <p>
+        <h3> Borrower Input </h3>
+            <ul> 
+                <li>First, Borrower must register by entereing their name (string) and click the rgister Borrower button.</li>
+                <li>Then the Borrower enters a loan amount (uint) and click the loan request button.</li>
+                <li>Borrowers must have distinct addresses. </li>
+            </ul>
+        <div id="Borrower's Name"></div>
+        <input id="borrower-name-box"
+            type="text"
+            placeholder="Provide borrower name"/>
+        <button id="registerBorrower">Register Borrower</button>
+        <div id="Borrower's address"></div>
+        <input id="ss-input-box"
+            type="number"
+            placeholder="Provide loan amount"/>
+        <button id="ss-input-button">Submit Loan Request</button>
+    </p>
+
+    <p>
+        <h3> Lender Input </h3>
+        <ul> 
+            <li>First, Lenders must register by entereing their name (string) and click the rgister Lender button.</li>
+            <li>Lender can make bid on the available loans only.</li>
+            <li>Lender can find available loans by checking the button "Check available loans".</li>
+            <li>Then the Lender can make lending bids to registered loans.</li>
+            <li>In order to bid on a loan, Lenders enters loan_id (such as 0, 1, ..), an amount they are willing to commit (uint) and an interest rate (uint) </li>
+        </ul>
+        <div id="Lender's Name"></div>
+        <input id="Lender-name-box"
+            type="text"
+            placeholder="Provide lender name"/>
+        <button id="registerLender">Register Lender</button>
+
+        <div></div>
+        <button id="checkAvailableLoans">Check Available Loans</button>
+        <div id="Check available loans"></div>
+
+        <div id="Lender's address"></div>
+        <input id="loanID-box"
+            type="number"
+            placeholder="Provide loan ID"/>
+            <input id="loanCommitment-box"
+            type="number"
+            placeholder="Provide loan Commitment Amount"/>
+            <input id="loanYield-box"
+            type="number"
+            placeholder="Provide loan Yield"/>
+        <button id="lender-bid-button">Submit Loan Bid</button>
+    </p>
+
+    <p>
+        <h3> Anyone can Check Loan Status </h3>
+            <ul> 
+                <li>Enter loan ID (0 for the first loan, ...) to get information on the loan.</li>
+            </ul>
+        <input id="loan-status-box"
+            type="number"
+            placeholder="Provide laon ID"/>
+        <button id="checkLoanStatus">Check Loan Status</button>
+        <div id="Loan Status"></div>
+    </p>
+
+    <script src="dapp.js"> </script>
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</body>
+</html>
