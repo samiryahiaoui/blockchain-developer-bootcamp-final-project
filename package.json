@@ -1,0 +1,28 @@
+{
+  "name": "blockchain-developer-bootcamp-final-project",
+  "version": "1.0.0",
+  "description": "The goal is to create a platform for syndicated loans. The platform should allow borrowers and lenders to connect and a bidding process to take place.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samiryahiaoui/blockchain-developer-bootcamp-final-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samiryahiaoui/blockchain-developer-bootcamp-final-project/issues"
+  },
+  "homepage": "https://github.com/samiryahiaoui/blockchain-developer-bootcamp-final-project#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.1",
+    "@truffle/hdwallet-provider": "^2.0.0",
+    "dotenv": "^10.0.0"
+  }
+}
